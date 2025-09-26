@@ -1,0 +1,43 @@
+name: hipsterassignment
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.8.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  http: ^1.5.0
+  get: ^4.7.2
+  graphql_flutter: ^5.2.1
+  path_provider: ^2.1.5
+  hive_flutter: ^1.1.0
+  hive: ^2.2.3
+  flutter_bloc: ^9.1.1
+  flutter_aws_chime: ^1.1.0+1
+  firebase_core: ^3.6.0
+  firebase_messaging: ^15.1.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_native_splash: ^2.4.6
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/logo.jpeg
+
+# 👇 move splash config OUTSIDE "flutter:"
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/logo.jpeg
+  android: true
+  ios: true
