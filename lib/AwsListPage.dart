@@ -136,7 +136,10 @@ class _AwsListScreenState extends State<AwsListScreen> {
                                     name:"amil",
                                     attendeeId: user.id
                                   );
-                                  Get.to( () => VideoCallPage(meeting: meeting));
+                                  Get.to( () => VideoCallPage(
+                                    userName: "amil",
+                                    meetingId: user.id,
+                                  ));
                                 } catch (e) {
                                   Get.snackbar(
                                     'Call failed',
