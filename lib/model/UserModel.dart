@@ -21,8 +21,8 @@ class UserModel extends HiveObject {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
-      name: json['name'],
-      avatar: "https://i.pravatar.cc/150?img=${json['id']}",
+      name: "${json['first_name']} ${json['last_name']}", // must match keys
+      avatar: "https://i.pravatar.cc/150?img=${json['id']}",// provide default if null
     );
   }
 }
