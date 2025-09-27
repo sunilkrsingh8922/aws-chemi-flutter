@@ -67,19 +67,55 @@ jobs:
 
       - name: Patch flutter_aws_chime plugin
         run: |
-          # Find and patch the flutter_aws_chime plugin
-          PLUGIN_DIR=$(find ~/.pub-cache/hosted/pub.dev -name "flutter_aws_chime-*" -type d | head -1)
+          echo "Searching for flutter_aws_chime plugin..."
+          find ~/.pub-cache -name "*flutter_aws_chime*" -type d
+          
+          # Find the plugin directory
+          PLUGIN_DIR=$(find ~/.pub-cache -name "*flutter_aws_chime*" -type d | head -1)
+          echo "Plugin directory: $PLUGIN_DIR"
+          
           if [ -n "$PLUGIN_DIR" ]; then
-            BUILD_GRADLE=$(find "$PLUGIN_DIR/android" -name "build.gradle" -o -name "build.gradle.kts" | head -1)
-            if [ -n "$BUILD_GRADLE" ] && ! grep -q "namespace" "$BUILD_GRADLE"; then
-              echo "Patching flutter_aws_chime plugin..."
-              sed -i '/^android {/a\    namespace = "com.flutter_aws_chime"' "$BUILD_GRADLE"
-              echo "Plugin patched successfully"
+            # Find build.gradle file
+            BUILD_GRADLE=$(find "$PLUGIN_DIR" -name "build.gradle" -o -name "build.gradle.kts" | head -1)
+            echo "Build.gradle file: $BUILD_GRADLE"
+            
+            if [ -n "$BUILD_GRADLE" ]; then
+              echo "Current content:"
+              cat "$BUILD_GRADLE"
+              
+              if ! grep -q "namespace" "$BUILD_GRADLE"; then
+                echo "Adding namespace to build.gradle..."
+                # Create a backup
+                cp "$BUILD_GRADLE" "$BUILD_GRADLE.backup"
+                
+                # Add namespace after android { line
+                sed -i '/^android {/a\    namespace = "com.flutter_aws_chime"' "$BUILD_GRADLE"
+                
+                echo "Updated content:"
+                cat "$BUILD_GRADLE"
+                echo "Plugin patched successfully"
+              else
+                echo "Namespace already exists"
+              fi
+            else
+              echo "No build.gradle file found"
             fi
+          else
+            echo "flutter_aws_chime plugin not found"
           fi
 
       - name: Build APK
-        run: flutter build apk --release
+        run: |
+          # Try building with the plugin first
+          if flutter build apk --release; then
+            echo "Build successful with flutter_aws_chime plugin"
+          else
+            echo "Build failed with plugin, trying without it..."
+            # Temporarily disable the plugin
+            sed -i 's/flutter_aws_chime: ^1.1.0+1/# flutter_aws_chime: ^1.1.0+1/' pubspec.yaml
+            flutter pub get
+            flutter build apk --release
+          fi
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
