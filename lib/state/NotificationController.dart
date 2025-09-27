@@ -61,6 +61,9 @@ class NotificationController extends GetxController {
       meetingId: meetingId,
     );
 
-    Get.to(() => VideoCallPage(meeting: meeting));
+    Get.to(() => VideoCallPage(
+      userName: name.isEmpty ? "Guest" : name,
+      meetingId: meetingId,
+    ));
   }
 }

@@ -1,43 +1,56 @@
-<<<<<<< HEAD
-=======
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_aws_chime/models/join_info.model.dart';
 // import 'package:flutter_aws_chime/views/meeting.view.dart';
->>>>>>> 0034d9ae7750a5cac3f2a1c185879d0a28ecf91f
 
-import 'package:flutter/material.dart';
-// import 'package:flutter_aws_chime/models/join_info.model.dart';
-// import 'package:flutter_aws_chime/views/meeting.view.dart';
+import '../services/ChimeService.dart';
 
 class VideoCallPage extends StatefulWidget {
-  final dynamic meeting;
+  final String? userName;
+  final String? meetingId;
 
-  VideoCallPage({this.meeting});
+  VideoCallPage({this.userName, this.meetingId});
+
   @override
   State<VideoCallPage> createState() => _VideoCallPageState();
 }
 
 class _VideoCallPageState extends State<VideoCallPage> {
+  Map<String, dynamic>? callData; // Holds API response
+  bool isLoading = true;
+  String? error;
+
   @override
   void initState() {
+    // TODO: implement initState
+    _initCall();
     super.initState();
+  }
+  Future<void> _initCall() async {
+    try {
+      final data = await ChimeService.initiateCall(
+        name: widget.userName ?? "Guest",
+        attendeeId: widget.meetingId ?? "default-attendee"
+      );
+
+      if (!mounted) return; // 👈 Prevent setState after dispose
+
+      setState(() {
+        callData = data;
+        isLoading = false;
+      });
+    } catch (e) {
+      if (!mounted) return; // 👈 Prevent setState after dispose
+
+      setState(() {
+        error = e.toString();
+        isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    return SafeArea(
-      child: SafeArea(
-        child: Scaffold(
-          body: widget.meeting['Meeting'] == null && widget.meeting['Attendee'] == null ? CircularProgressIndicator():
-          MeetingView(
-            JoinInfo(
-              MeetingInfo.fromJson(widget.meeting['Meeting']),
-              AttendeeInfo.fromJson(widget.meeting['Attendee'])
-            ),
-          ),
-=======
     return Scaffold(
       appBar: AppBar(
         title: Text('Video Call'),
@@ -80,7 +93,6 @@ class _VideoCallPageState extends State<VideoCallPage> {
                 ],
               ),
           ],
->>>>>>> 0034d9ae7750a5cac3f2a1c185879d0a28ecf91f
         ),
       ),
     );
