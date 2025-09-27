@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aws_chime/models/join_info.model.dart';
-import 'package:flutter_aws_chime/views/meeting.view.dart';
+// import 'package:flutter_aws_chime/models/join_info.model.dart';
+// import 'package:flutter_aws_chime/views/meeting.view.dart';
 
 class VideoCallPage extends StatefulWidget {
   final dynamic meeting;
