@@ -34,7 +34,7 @@ class ChimeService {
     if (payload.containsKey('MeetingId')) {
       return payload['MeetingId']?.toString();
     }
-    final meeting = payload['meeting'] ?? payload['Meeting'] ?? payload['data'];
+    final meeting = payload['meeting'] ?? payload['meeting'] ?? payload['data'];
     if (meeting is Map<String, dynamic>) {
       final value =
           meeting['MeetingId'] ?? meeting['meetingId'] ?? meeting['id'];
@@ -45,28 +45,41 @@ class ChimeService {
 
   static Future<Map<String, dynamic>> initiateCall({
     required String name,
-    required String fcmToken,
-    required String metingId,
+    required String attendeeId
   }) async {
     // If token not provided, fetch from FirebaseMessaging
-    if (fcmToken.isEmpty) {
-      final token = await FirebaseMessaging.instance.getToken();
-      if (token == null || token.isEmpty) {
-        throw Exception('FCM token unavailable');
-      }
-      fcmToken = token;
+    final uri = Uri.parse('$_baseUrl/chime/call');
+    final payload = json.encode({'username': name, 'attendeeId': attendeeId});
+    print("payloadpayload==$payload");
+    final response = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: payload,
+    );
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw Exception('call failed: ${response.statusCode} ${response.body}');
     }
 
-    final uri = Uri.parse('$_baseUrl/chime/call');
-    final payload = json.encode({'name': name, 'fcmToken': fcmToken, "metingId":metingId});
+    final data = json.decode(response.body);
+    print("chime/call response: ${data}");
+    return data;
+  }
 
+  static Future<Map<String, dynamic>> acceptCall({
+    required String name,
+    required String meetingId
+  }) async {
+    // If token not provided, fetch from FirebaseMessaging
+    final uri = Uri.parse('$_baseUrl/chime/call/accept');
+    final payload = json.encode({'name': name, 'meetingId': meetingId});
+    // print("payloadpayload==$payload");
     final response = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
       body: payload,
     );
 
-    print("chime/call response: ${response.body}");
+
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
       throw Exception('call failed: ${response.statusCode} ${response.body}');
@@ -74,28 +87,7 @@ class ChimeService {
 
     // Parse JSON
     final data = json.decode(response.body);
-
-    // Return only the needed parts
-    return {
-      "Meeting": data["meeting"]["Meeting"],
-      "Attendee": data["atendee"]["Attendee"],
-    };
+    return data;
   }
 
-  static Future<String?> startCallFlow(String name) async {
-    // Ensure we have a token
-    final token = await FirebaseMessaging.instance.getToken();
-    if (token == null || token.isEmpty) {
-      throw Exception('FCM token unavailable');
-    }
-
-    // 1) Create meeting on server
-    final meetingResp = await createMeeting();
-    final meetingId = _extractMeetingId(meetingResp);
-    print("meetingResp===${meetingResp}");
-    print("meetingId====$meetingId");
-    // 2) Notify server to place the call with our name and token
-    // await initiateCall(name: name, fcmToken: token);
-    return meetingId;
-  }
 }

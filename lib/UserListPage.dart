@@ -1,20 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hipsterassignment/GraphQLService.dart';
-import 'package:hipsterassignment/state/user_state.dart';
 import 'package:get/get.dart';
+import 'package:hipsterassignment/GraphQLService.dart';
+import 'package:hipsterassignment/services/ChimeService.dart';
+import 'package:hipsterassignment/state/user_state.dart';
+import 'package:hipsterassignment/videocall/VideoCallPage.dart';
 import 'event/user_bloc.dart';
 import 'event/user_event.dart';
-import 'services/ChimeService.dart';
-import 'videocall/VideoCallPage.dart';
 
-class UserListPage extends StatelessWidget {
+class UserListPage extends StatefulWidget {
+  const UserListPage({super.key});
+
+  @override
+  State<UserListPage> createState() => _UserListPageState();
+}
+
+class _UserListPageState extends State<UserListPage> {
+  late final TextEditingController nameController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final client = GraphQLService.initClient().value;
-
-    final TextEditingController nameController = TextEditingController();
-
     return BlocProvider(
       create: (_) => UserBloc(client)..add(FetchUsers()),
       child: Scaffold(
@@ -52,9 +70,8 @@ class UserListPage extends StatelessWidget {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade300,
-                                ),
+                                borderSide:
+                                BorderSide(color: Colors.grey.shade300),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -73,9 +90,9 @@ class UserListPage extends StatelessWidget {
                             onPressed: () {
                               final name = nameController.text.trim();
                               if (name.isNotEmpty) {
-                                context.read<UserBloc>().add(
-                                  AddUserByName(name),
-                                );
+                                context
+                                    .read<UserBloc>()
+                                    .add(AddUserByName(name));
                                 nameController.clear();
                               }
                             },
@@ -98,7 +115,8 @@ class UserListPage extends StatelessWidget {
                     child: RefreshIndicator(
                       onRefresh: () async {
                         context.read<UserBloc>().add(FetchUsers());
-                        await Future.delayed(const Duration(milliseconds: 400));
+                        await Future.delayed(
+                            const Duration(milliseconds: 400));
                       },
                       child: ListView.builder(
                         itemCount: state.users.length,
@@ -114,17 +132,11 @@ class UserListPage extends StatelessWidget {
                               tooltip: 'Start video call',
                               onPressed: () async {
                                 try {
-                                  final meetingId =
-                                      await ChimeService.startCallFlow(
-                                        user.name,
-                                      );
-
-                                  Get.to(
-                                    () => VideoCallPage(
-                                      userName: user.name,
-                                      meetingId: meetingId,
-                                    ),
+                                  final meeting = await ChimeService.initiateCall(
+                                    name:"amil",
+                                    attendeeId: user.id
                                   );
+                                  Get.to( () => VideoCallPage(meeting: meeting));
                                 } catch (e) {
                                   Get.snackbar(
                                     'Call failed',

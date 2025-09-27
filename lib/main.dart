@@ -5,6 +5,7 @@ import 'package:hipsterassignment/SplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hipsterassignment/UserListPage.dart';
+import 'package:hipsterassignment/services/ChimeService.dart';
 import 'package:hipsterassignment/videocall/VideoCallPage.dart';
 
 import 'GraphQLService.dart';
@@ -43,30 +44,32 @@ void main() async {
   // Set up notification tap handlers AFTER navigator is ready
   // Background/foreground tap
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print("onMessage===OpenedApp");
+    _handleNotificationTap(message);
+  });
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print("Message===");
+
     _handleNotificationTap(message);
   });
 
   // Terminated state tap
   FirebaseMessaging.instance.getInitialMessage().then((initialMessage) {
     if (initialMessage != null) {
+      print("getInitialMessage===");
       _handleNotificationTap(initialMessage);
     }
   });
 }
 
-void _handleNotificationTap(RemoteMessage message) {
+void _handleNotificationTap(RemoteMessage message)async {
   final data = message.data;
   final name = (data['name'] ?? '').toString();
-  final meetingId = (data['meetingId'] ?? data['metingid'] ?? '').toString();
-
-  // Navigate to user list first, then to the 1-to-1 video call
-  Get.offAll(() => UserListPage());
-  Get.to(
-    () => VideoCallPage(
-      userName: name.isNotEmpty ? name : null,
-      meetingId: meetingId.isNotEmpty ? meetingId : null,
-    ),
-  );
+  final meetingId = data['meetingId'] ?? data['metingid'];
+  if(meetingId==null) return Get.offAll(() => UserListPage());
+  final meeting = await ChimeService.acceptCall(  name: "sunil" ?? "Guest", meetingId: meetingId);
+  Get.to(() => VideoCallPage( meeting: meeting));
 }
 
 class MyApp extends StatelessWidget {

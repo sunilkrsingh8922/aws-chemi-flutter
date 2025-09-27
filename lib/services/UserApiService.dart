@@ -18,8 +18,9 @@ class UserApiService {
   }
 
   static Future<List<User>> fetchUsers() async {
-    final uri = Uri.parse('$_baseUrl/users/all');
+    final uri = Uri.parse('$_baseUrl/users/list');
     final response = await http.get(uri);
+    print("response.body==${response.body}");
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final List<dynamic> data = json.decode(response.body) as List<dynamic>;
       return data
@@ -55,11 +56,9 @@ class UserApiService {
 
   static Future<User> addUser(String name) async {
     final uri = Uri.parse('$_baseUrl/users/add');
-
     final fcmToken = await FirebaseMessaging.instance.getToken();
     final deviceId = await _getOrCreateDeviceId();
     final username = name.trim().toLowerCase().replaceAll(RegExp(r'\s+'), '_');
-
     final body = json.encode({
       'username': username,
       'deviceId': deviceId,
