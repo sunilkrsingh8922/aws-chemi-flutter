@@ -29,13 +29,16 @@ class UserController extends GetxController {
   Future<void> fetchUsers() async {
     try {
       isLoading.value = true;
-      final response =
-      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/users'));
+      final response = await http.get(
+        Uri.parse('https://reqres.in/api/users?page=1'),
+      );
 
       if (response.statusCode == 200) {
-        final List usersJson = json.decode(response.body);
+        final List usersJson = json.decode(response.body)['data']; // reqres wraps users in 'data'
         final fetchedUsers =
         usersJson.map((json) => UserModel.fromJson(json)).toList();
+
+        print("fetchedUsers == $fetchedUsers");
 
         // Update Hive cache
         await userBox.clear();
@@ -43,6 +46,8 @@ class UserController extends GetxController {
 
         // Update reactive list
         users.assignAll(fetchedUsers);
+      } else {
+        print("Failed to fetch users, statusCode: ${response.statusCode}");
       }
     } catch (e) {
       print("Failed to fetch users, using cache: $e");
@@ -50,4 +55,5 @@ class UserController extends GetxController {
       isLoading.value = false;
     }
   }
+
 }

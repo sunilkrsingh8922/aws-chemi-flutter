@@ -17,14 +17,12 @@ class _UserListScreenState extends State<UserListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Chat"),
+        title: const Text("User List"),
         actions: [
           IconButton(
             icon: const Icon(Icons.video_call), // or any icon you want
             tooltip: "Start Video Call",
             onPressed: () {
-              // Navigate to VideoCallPage or handle call
-              // Example:
               Get.to(() => AwsListScreen());
             },
           ),
