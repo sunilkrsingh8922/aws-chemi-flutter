@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aws_chime/models/join_info.model.dart';
-import 'package:flutter_aws_chime/views/meeting.view.dart';
+// import 'package:flutter_aws_chime/models/join_info.model.dart';
+// import 'package:flutter_aws_chime/views/meeting.view.dart';
 
 import '../services/ChimeService.dart';
 
@@ -53,59 +53,48 @@ class _VideoCallPageState extends State<VideoCallPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SafeArea(
-        child: Scaffold(
-          body: callData == null? CircularProgressIndicator():
-          MeetingView(
-            JoinInfo(
-              MeetingInfo.fromJson({
-                'MeetingId':
-                    widget.meetingId ?? '92faba56-cd9b-40b3-9058-43b1d62a2713',
-                'ExternalMeetingId': 'Public',
-                'MediaRegion': callData!['Meeting']['MediaRegion']??
-                    'us-east-1',
-                'MediaPlacement': {
-                  "AudioFallbackUrl": callData!['Meeting']['MediaPlacement']['AudioFallbackUrl']??
-                      "wss://wss.k.m1.ue1.app.chime.aws:443/calls/92faba56-cd9b-40b3-9058-43b1d62a2713",
-                  "AudioHostUrl":callData!['Meeting']['MediaPlacement']['AudioHostUrl']??
-                      "18b67e825ac86732baad9dd44cea29c8.k.m1.ue1.app.chime.aws:3478",
-                  "EventIngestionUrl":callData!['Meeting']['MediaPlacement']['EventIngestionUrl']??
-                      "https://data.svc.ue1.ingest.chime.aws/v1/client-events",
-                  "ScreenDataUrl":callData!['Meeting']['MediaPlacement']['ScreenDataUrl']??
-                      "wss://bitpw.m1.ue1.app.chime.aws:443/v2/screen/92faba56-cd9b-40b3-9058-43b1d62a2713",
-                  "ScreenSharingUrl":callData!['Meeting']['MediaPlacement']['ScreenSharingUrl']??
-                      "wss://bitpw.m1.ue1.app.chime.aws:443/v2/screen/92faba56-cd9b-40b3-9058-43b1d62a2713",
-                  "ScreenViewingUrl":callData!['Meeting']['MediaPlacement']['ScreenViewingUrl']??
-                      "wss://bitpw.m1.ue1.app.chime.aws:443/ws/connect?passcode=null&viewer_uuid=null&X-BitHub-Call-Id=92faba56-cd9b-40b3-9058-43b1d62a2713",
-                  "SignalingUrl":callData!['Meeting']['MediaPlacement']['SignalingUrl']??
-                      "wss://signal.m1.ue1.app.chime.aws/control/92faba56-cd9b-40b3-9058-43b1d62a2713",
-                  "TurnControlUrl":callData!['Meeting']['MediaPlacement']['TurnControlUrl']??
-                      "https://2713.cell.us-east-1.meetings.chime.aws/v2/turn_sessions",
-                },
-                'MeetingFeatures': {
-                  "Attendee": {"MaxCount": 3},
-                  "Audio": {"EchoReduction": "AVAILABLE"},
-                  "Video": {"MaxResolution": "HD"},
-                },
-                'MeetingArn':callData!['Meeting']['MeetingArn']??
-                    'arn:aws:chime:us-east-1:476057873255:meeting/92faba56-cd9b-40b3-9058-43b1d62a2713',
-                'TenantIds': [],
-              }),
-              callData!['atendee'] !=null
-              ?AttendeeInfo.fromJson({
-                "AttendeeId": callData!['atendee']['AttendeeId']??
-                    "9e8636ee-cec4-4517-99e2-39e5da3522f1",
-                "ExternalUserId": widget.userName ?? "Guest",
-                "JoinToken": callData!['atendee']['JoinToken']??
-                    "OWU4NjM2ZWUtY2VjNC00NTE3LTk5ZTItMzllNWRhMzUyMmYxOjdiN2Y4OWY3LWExYjAtNDNhZi05YjUxLTZhNTJkOGY3NzBlZA",
-              }):AttendeeInfo.fromJson({
-                "AttendeeId":"",
-                "ExternalUserId":"",
-                "JoinToken":""
-              }),
-            ),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Video Call'),
+        backgroundColor: Colors.blue,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (isLoading)
+              CircularProgressIndicator()
+            else if (error != null)
+              Column(
+                children: [
+                  Icon(Icons.error, size: 64, color: Colors.red),
+                  SizedBox(height: 16),
+                  Text('Error: $error', textAlign: TextAlign.center),
+                ],
+              )
+            else
+              Column(
+                children: [
+                  Icon(Icons.videocam, size: 64, color: Colors.blue),
+                  SizedBox(height: 16),
+                  Text('Video Call Ready', style: TextStyle(fontSize: 24)),
+                  SizedBox(height: 8),
+                  Text('Meeting ID: ${widget.meetingId ?? "N/A"}'),
+                  SizedBox(height: 8),
+                  Text('User: ${widget.userName ?? "Guest"}'),
+                  SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: () {
+                      // TODO: Implement video call functionality
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Video call functionality temporarily disabled')),
+                      );
+                    },
+                    child: Text('Start Call'),
+                  ),
+                ],
+              ),
+          ],
         ),
       ),
     );

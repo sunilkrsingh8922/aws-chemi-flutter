@@ -8,13 +8,11 @@ import Foundation
 import connectivity_plus
 import firebase_core
 import firebase_messaging
-import flutter_aws_chime
 import path_provider_foundation
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   ConnectivityPlusPlugin.register(with: registry.registrar(forPlugin: "ConnectivityPlusPlugin"))
   FLTFirebaseCorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCorePlugin"))
   FLTFirebaseMessagingPlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseMessagingPlugin"))
-  FlutterAwsChimePlugin.register(with: registry.registrar(forPlugin: "FlutterAwsChimePlugin"))
   PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
 }
