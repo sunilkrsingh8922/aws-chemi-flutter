@@ -68,86 +68,23 @@ jobs:
       - name: Patch flutter_aws_chime plugin
         run: |
           echo "Searching for flutter_aws_chime plugin..."
-          find ~/.pub-cache -name "*flutter_aws_chime*" -type d
-          
-          # Find the plugin directory
           PLUGIN_DIR=$(find ~/.pub-cache -name "*flutter_aws_chime*" -type d | head -1)
-          echo "Plugin directory: $PLUGIN_DIR"
-          
           if [ -n "$PLUGIN_DIR" ]; then
-            # Find build.gradle file
             BUILD_GRADLE=$(find "$PLUGIN_DIR" -name "build.gradle" -o -name "build.gradle.kts" | head -1)
-            echo "Build.gradle file: $BUILD_GRADLE"
-            
             if [ -n "$BUILD_GRADLE" ]; then
-              echo "Current content:"
-              cat "$BUILD_GRADLE"
-              
               if ! grep -q "namespace" "$BUILD_GRADLE"; then
-                echo "Adding namespace to build.gradle..."
-                # Create a backup
                 cp "$BUILD_GRADLE" "$BUILD_GRADLE.backup"
-                
-                # Add namespace after android { line
                 sed -i '/^android {/a\    namespace = "com.flutter_aws_chime"' "$BUILD_GRADLE"
-                
-                echo "Updated content:"
-                cat "$BUILD_GRADLE"
                 echo "Plugin patched successfully"
-              else
-                echo "Namespace already exists"
               fi
-            else
-              echo "No build.gradle file found"
             fi
-          else
-            echo "flutter_aws_chime plugin not found"
           fi
 
       - name: Build APK
-        run: |
-          # Try building with the plugin first
-          if flutter build apk --release; then
-            echo "Build successful with flutter_aws_chime plugin"
-          else
-            echo "Build failed with plugin, trying without it..."
-            # Temporarily disable the plugin
-            sed -i 's/flutter_aws_chime: ^1.1.0+1/# flutter_aws_chime: ^1.1.0+1/' pubspec.yaml
-            flutter pub get
-            flutter build apk --release
-          fi
+        run: flutter build apk --release
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
-
-  build-ios:
-    name: Build iOS
-    runs-on: macos-latest
-    needs: test
-    if: github.event_name == 'push'
-    
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.35.4'
-          channel: 'stable'
-          cache: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Build iOS
-        run: flutter build ios --no-codesign
-
-      - name: Upload iOS build
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-build
-          path: build/ios/iphoneos/
