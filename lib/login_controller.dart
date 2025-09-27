@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hipsterassignment/GraphQLService.dart';
-import 'package:hipsterassignment/UserListPage.dart';
+import 'package:hipsterassignment/AwsListPage.dart';
+import 'package:hipsterassignment/UserListScreen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class LoginController extends GetxController {
@@ -77,7 +78,7 @@ class LoginController extends GetxController {
 
       final user = result.data?["user"];
       if (user != null &&
-          email == "sunilanddeveloper@gmail.com" &&
+          email == "test@gmail.com" &&
           password == "Kgs@123") {
         // persist auth
         try {
@@ -91,7 +92,7 @@ class LoginController extends GetxController {
         } catch (_) {}
 
         Get.snackbar("Success", "Login successful as ${user["name"]}");
-        Get.offAll(() => UserListPage());
+        Get.offAll(() => UserListScreen());
       } else {
         errorMessage.value = "Invalid credentials";
       }

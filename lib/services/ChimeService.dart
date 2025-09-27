@@ -69,10 +69,8 @@ class ChimeService {
     required String name,
     required String meetingId
   }) async {
-    // If token not provided, fetch from FirebaseMessaging
     final uri = Uri.parse('$_baseUrl/chime/call/accept');
     final payload = json.encode({'name': name, 'meetingId': meetingId});
-    // print("payloadpayload==$payload");
     final response = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},

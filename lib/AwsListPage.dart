@@ -8,14 +8,14 @@ import 'package:hipsterassignment/videocall/VideoCallPage.dart';
 import 'event/user_bloc.dart';
 import 'event/user_event.dart';
 
-class UserListPage extends StatefulWidget {
-  const UserListPage({super.key});
+class AwsListScreen extends StatefulWidget {
+  const AwsListScreen({super.key});
 
   @override
-  State<UserListPage> createState() => _UserListPageState();
+  State<AwsListScreen> createState() => _AwsListScreenState();
 }
 
-class _UserListPageState extends State<UserListPage> {
+class _AwsListScreenState extends State<AwsListScreen> {
   late final TextEditingController nameController;
 
   @override

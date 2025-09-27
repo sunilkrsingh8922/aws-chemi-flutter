@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hipsterassignment/UserListScreen.dart';
 import 'LoginPage.dart';
-import 'UserListPage.dart';
+import 'AwsListPage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen>
         final box = await Hive.openBox('auth');
         final loggedIn = box.get('logged_in', defaultValue: false) as bool;
         if (loggedIn) {
-          Get.off(() => UserListPage());
+          Get.off(() => UserListScreen());
           return;
         }
       } catch (_) {}
