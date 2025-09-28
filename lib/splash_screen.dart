@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hipsterassignment/user_list_screen.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'login_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -38,8 +39,28 @@ class SplashScreenState extends State<SplashScreen>
           return;
         }
       } catch (_) {}
+      await requestPermissions();
+      // if(permissionstatus)
       Get.off(() => LoginPage()); // fallback to login
+
     });
+  }
+
+  Future<bool> requestPermissions() async {
+    // Request multiple permissions
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.camera,
+      Permission.microphone, // RECORD_AUDIO
+    ].request();
+
+    if (statuses[Permission.camera]!.isDenied ||
+        statuses[Permission.microphone]!.isDenied) {
+      // Handle denial: show dialog or exit
+      print("Permissions denied. Cannot start call.");
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @override
