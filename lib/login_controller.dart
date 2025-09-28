@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hipsterassignment/GraphQLService.dart';
-import 'package:hipsterassignment/AwsListPage.dart';
-import 'package:hipsterassignment/UserListScreen.dart';
+import 'package:hipsterassignment/graph_ql_service.dart';
+import 'package:hipsterassignment/user_list_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class LoginController extends GetxController {

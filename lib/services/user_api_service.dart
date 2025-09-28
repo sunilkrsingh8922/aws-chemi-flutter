@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:hipsterassignment/model/User.dart';
+import 'package:hipsterassignment/model/user.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -20,7 +20,7 @@ class UserApiService {
   static Future<List<User>> fetchUsers() async {
     final uri = Uri.parse('$_baseUrl/users/list');
     final response = await http.get(uri);
-    print("response.body==${response.body}");
+    debugPrint("response.body==${response.body}");
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final List<dynamic> data = json.decode(response.body) as List<dynamic>;
       return data

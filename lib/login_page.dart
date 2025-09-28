@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hipsterassignment/helper/CustomeWidget.dart';
+import 'package:hipsterassignment/helper/custome_widget.dart';
 import 'package:hipsterassignment/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key}); // Fix key
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -37,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                     // Logo
                     CircleAvatar(
                       radius: 48,
-                      backgroundColor: Colors.white.withOpacity(0.2),
+                      backgroundColor: const Color.fromRGBO(255, 255, 255, 0.2),
                       child: ClipOval(
                         child: Image.asset('assets/logo.jpeg', width: 84, height: 84),
                       ),

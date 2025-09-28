@@ -1,17 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hipsterassignment/UserListScreen.dart';
-import 'LoginPage.dart';
-import 'AwsListPage.dart';
+import 'package:hipsterassignment/user_list_screen.dart';
+import 'login_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  SplashScreenState createState() => SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;

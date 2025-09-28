@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../model/UserModel.dart';
+import '../model/user_model.dart';
 
 class UserController extends GetxController {
   var users = <UserModel>[].obs;
@@ -35,7 +36,7 @@ class UserController extends GetxController {
 
       if (response.statusCode == 200) {
         final List usersJson = json.decode(response.body)['data']; // reqres wraps users in 'data'
-        print("fetchedUsers == $usersJson");
+        debugPrint("fetchedUsers == $usersJson");
         final fetchedUsers =
         usersJson.map((json) => UserModel.fromJson(json)).toList();
 
@@ -46,10 +47,10 @@ class UserController extends GetxController {
         // Update reactive list
         users.assignAll(fetchedUsers);
       } else {
-        print("Failed to fetch users, statusCode: ${response.statusCode}");
+        debugPrint("Failed to fetch users, statusCode: ${response.statusCode}");
       }
     } catch (e) {
-      print("Failed to fetch users, using cache: $e");
+      debugPrint("Failed to fetch users, using cache: $e");
     } finally {
       isLoading.value = false;
     }

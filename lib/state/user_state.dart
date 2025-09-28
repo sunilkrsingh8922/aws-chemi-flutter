@@ -1,4 +1,4 @@
-import 'package:hipsterassignment/model/User.dart';
+import 'package:hipsterassignment/model/user.dart';
 
 abstract class UserState {}
 

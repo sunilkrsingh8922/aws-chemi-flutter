@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hipsterassignment/services/UserApiService.dart';
-import '../model/User.dart';
+import 'package:hipsterassignment/services/user_api_service.dart';
+import '../model/user.dart';
 import '../state/user_state.dart';
 import 'user_event.dart';
 

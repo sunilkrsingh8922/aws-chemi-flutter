@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class ChimeService {
   static String get _baseUrl {
@@ -26,23 +25,6 @@ class ChimeService {
     );
   }
 
-  static String? _extractMeetingId(Map<String, dynamic> payload) {
-    // Flexible extraction: support {meetingId}, {MeetingId}, or nested meeting.MeetingId
-    if (payload.containsKey('meetingId')) {
-      return payload['meetingId']?.toString();
-    }
-    if (payload.containsKey('MeetingId')) {
-      return payload['MeetingId']?.toString();
-    }
-    final meeting = payload['meeting'] ?? payload['meeting'] ?? payload['data'];
-    if (meeting is Map<String, dynamic>) {
-      final value =
-          meeting['MeetingId'] ?? meeting['meetingId'] ?? meeting['id'];
-      return value?.toString();
-    }
-    return null;
-  }
-
   static Future<Map<String, dynamic>> initiateCall({
     required String name,
     required String attendeeId
@@ -50,7 +32,7 @@ class ChimeService {
     // If token not provided, fetch from FirebaseMessaging
     final uri = Uri.parse('$_baseUrl/chime/call');
     final payload = json.encode({'username': name, 'attendeeId': attendeeId});
-    print("payloadpayload==$payload");
+    debugPrint("payloadpayload==$payload");
     final response = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
@@ -61,7 +43,7 @@ class ChimeService {
     }
 
     final data = json.decode(response.body);
-    print("chime/call response: ${data}");
+    debugPrint("chime/call response: $data");
     return data;
   }
 

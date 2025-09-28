@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../services/ChimeService.dart';
-import '../videocall/VideoCallPage.dart';
-import '../AwsListPage.dart';
+import '../services/chime_service.dart';
+import '../videocall/video_call_page.dart';
+import '../aws_list_page.dart';
 
 class NotificationController extends GetxController {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
@@ -23,14 +24,14 @@ class NotificationController extends GetxController {
     // Print FCM token
     try {
       final token = await _messaging.getToken();
-      print("FCM Token: $token");
+      debugPrint("FCM Token: $token");
     } catch (e) {
-      print("Error getting token: $e");
+      debugPrint("Error getting token: $e");
     }
 
     // Listen for token refresh
     _messaging.onTokenRefresh.listen((newToken) {
-      print("Token refreshed: $newToken");
+      debugPrint("Token refreshed: $newToken");
     });
 
     // Foreground notifications

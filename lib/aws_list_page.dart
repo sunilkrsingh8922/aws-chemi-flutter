@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:hipsterassignment/GraphQLService.dart';
-import 'package:hipsterassignment/services/ChimeService.dart';
+import 'package:hipsterassignment/graph_ql_service.dart';
+import 'package:hipsterassignment/services/chime_service.dart';
 import 'package:hipsterassignment/state/user_state.dart';
-import 'package:hipsterassignment/videocall/VideoCallPage.dart';
+import 'package:hipsterassignment/videocall/video_call_page.dart';
 import 'event/user_bloc.dart';
 import 'event/user_event.dart';
 
