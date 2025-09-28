@@ -42,7 +42,6 @@ class SplashScreenState extends State<SplashScreen>
       await requestPermissions();
       // if(permissionstatus)
       Get.off(() => LoginPage()); // fallback to login
-
     });
   }
 

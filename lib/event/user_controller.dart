@@ -30,13 +30,16 @@ class UserController extends GetxController {
   Future<void> fetchUsers() async {
     try {
       isLoading.value = true;
-      final response = await http.get(
-        Uri.parse('https://jsonplaceholder.typicode.com/users'),
-      );
+      final url = Uri.parse('https://dummyjson.com/users?limit=20');
 
+      final response = await http.get(url, headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+      });
+
+      print("fetchedUsers == ${response.body}");
       if (response.statusCode == 200) {
-        final List usersJson = json.decode(response.body)['data']; // reqres wraps users in 'data'
-        debugPrint("fetchedUsers == $usersJson");
+        final List usersJson = json.decode(response.body)['users']; // reqres wraps users in 'data'
+        print("fetchedUsers == $usersJson");
         final fetchedUsers =
         usersJson.map((json) => UserModel.fromJson(json)).toList();
 
