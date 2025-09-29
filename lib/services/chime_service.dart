@@ -26,12 +26,12 @@ class ChimeService {
   }
 
   static Future<Map<String, dynamic>> initiateCall({
-    required String name,
+    required String callerId,
     required String attendeeId
   }) async {
     // If token not provided, fetch from FirebaseMessaging
     final uri = Uri.parse('$_baseUrl/chime/call');
-    final payload = json.encode({'username': name, 'attendeeId': attendeeId});
+    final payload = json.encode({'callerId': callerId, 'attendeeId': attendeeId});
     debugPrint("payloadpayload==$payload");
     final response = await http.post(
       uri,
@@ -51,20 +51,16 @@ class ChimeService {
     required String name,
     required String meetingId
   }) async {
-    final uri = Uri.parse('$_baseUrl/chime/call/accept');
-    final payload = json.encode({'name': name, 'meetingId': meetingId});
-    final response = await http.post(
+    final uri = Uri.parse('$_baseUrl/chime/$meetingId');
+    // final payload = json.encode({'name': name, 'meetingId': meetingId});
+    final response = await http.get(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: payload,
     );
     if (response.statusCode < 200 || response.statusCode >= 300) {
       throw Exception('call failed: ${response.statusCode} ${response.body}');
     }
-
-    // Parse JSON
     final data = json.decode(response.body);
     return data;
   }
-
 }

@@ -54,6 +54,6 @@ class NotificationController extends GetxController {
       meetingId: meetingId,
     );
 
-    Get.to(() => VideoCallPage(meeting: meeting));
+    Get.to(() => VideoCallPage(meeting: meeting['Meeting'],atendee:meeting['Attendees']));
   }
 

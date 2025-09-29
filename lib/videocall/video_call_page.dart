@@ -5,8 +5,8 @@ import 'package:flutter_aws_chime/views/meeting.view.dart';
 
 class VideoCallPage extends StatefulWidget {
   final dynamic meeting;
-
-  const VideoCallPage({super.key, this.meeting});
+  final dynamic atendee;
+  const VideoCallPage({super.key, this.meeting,this.atendee});
 
   @override
   State<VideoCallPage> createState() => _VideoCallPageState();
@@ -42,7 +42,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.meeting['Meeting'] == null && widget.meeting['Attendee'] == null) {
+    if (widget.meeting == null) {
       return const Center(child: CircularProgressIndicator());
     }
 
@@ -50,8 +50,8 @@ class _VideoCallPageState extends State<VideoCallPage> {
       child: Scaffold(
         body: MeetingView(
           JoinInfo(
-            MeetingInfo.fromJson(widget.meeting['Meeting']),
-            AttendeeInfo.fromJson(widget.meeting['Attendee']),
+            MeetingInfo.fromJson(widget.meeting),
+              AttendeeInfo.fromJson(widget.atendee[0]),
           ),
         ),
       ),

@@ -63,11 +63,11 @@ class _AwsListScreenState extends State<AwsListScreen> {
                               onPressed: () async {
                                 try {
                                   final meeting = await ChimeService.initiateCall(
-                                    name:user.name,
-                                    attendeeId: user.id
+                                      callerId: user.id=="2"?"1":"2",
+                                      attendeeId: user.id
                                   );
-                                  print("meetingmeetingmeeting=${meeting['Meeting']['MeetingId']}");
-                                  Get.to( () => VideoCallPage(meeting: meeting));
+
+                                  Get.to( () => VideoCallPage(meeting: meeting['Meeting'],atendee:meeting['Attendees']));
                                 } catch (e) {
                                   Get.snackbar(
                                     'Call failed',
