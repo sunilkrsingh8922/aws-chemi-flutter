@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_aws_chime/models/join_info.model.dart';
 import 'package:flutter_aws_chime/views/meeting.view.dart';
 
@@ -12,9 +13,31 @@ class VideoCallPage extends StatefulWidget {
 }
 
 class _VideoCallPageState extends State<VideoCallPage> {
+
   @override
   void initState() {
     super.initState();
+  }
+  static const platform = MethodChannel('flutter_aws_chime');
+
+  Future<void> leaveMeeting() async {
+    try {
+      await platform.invokeMethod('leaveMeeting');
+    } catch (e) {
+      debugPrint("Leave meeting failed: $e");
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // ✅ If your plugin provides cleanup methods, call them here.
+    try {
+      leaveMeeting();   // Some forks expose a static leave()
+      // Or MeetingView.end(); if available
+    } catch (e) {
+      debugPrint("Error while leaving meeting: $e");
+    }
   }
 
   @override

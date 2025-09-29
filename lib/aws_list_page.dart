@@ -38,15 +38,6 @@ class _AwsListScreenState extends State<AwsListScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Users"),
-          actions: [
-            IconButton(
-              tooltip: 'Refresh',
-              icon: const Icon(Icons.refresh),
-              onPressed: () {
-                context.read<UserBloc>().add(FetchUsers());
-              },
-            ),
-          ],
         ),
         body: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
@@ -55,70 +46,9 @@ class _AwsListScreenState extends State<AwsListScreen> {
             } else if (state is UserLoaded) {
               return Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: nameController,
-                            decoration: InputDecoration(
-                              hintText: 'Enter name to add',
-                              prefixIcon: const Icon(Icons.person_add_alt),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide:
-                                BorderSide(color: Colors.grey.shade300),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFF2575FC),
-                                  width: 1.5,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                          height: 56,
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              final name = nameController.text.trim();
-                              if (name.isNotEmpty) {
-                                context
-                                    .read<UserBloc>()
-                                    .add(AddUserByName(name));
-                                nameController.clear();
-                              }
-                            },
-                            icon: const Icon(Icons.add),
-                            label: const Text('Add'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF2575FC),
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   const Divider(height: 1),
                   Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: () async {
-                        context.read<UserBloc>().add(FetchUsers());
-                        await Future.delayed(
-                            const Duration(milliseconds: 400));
-                      },
-                      child: ListView.builder(
+                    child:  ListView.builder(
                         itemCount: state.users.length,
                         itemBuilder: (context, index) {
                           final user = state.users[index];
@@ -133,9 +63,10 @@ class _AwsListScreenState extends State<AwsListScreen> {
                               onPressed: () async {
                                 try {
                                   final meeting = await ChimeService.initiateCall(
-                                    name:"amil",
+                                    name:user.name,
                                     attendeeId: user.id
                                   );
+                                  print("meetingmeetingmeeting=${meeting['Meeting']['MeetingId']}");
                                   Get.to( () => VideoCallPage(meeting: meeting));
                                 } catch (e) {
                                   Get.snackbar(
@@ -149,8 +80,7 @@ class _AwsListScreenState extends State<AwsListScreen> {
                           );
                         },
                       ),
-                    ),
-                  ),
+                    )
                 ],
               );
             } else if (state is UserError) {

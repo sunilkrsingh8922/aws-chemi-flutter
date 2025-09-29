@@ -1,41 +1,21 @@
 {
   "project_info": {
-    "project_number": "920338196243",
-    "firebase_url": "https://angular-amp-152011-default-rtdb.firebaseio.com",
-    "project_id": "angular-amp-152011",
-    "storage_bucket": "angular-amp-152011.appspot.com"
+    "project_number": "748660142685",
+    "project_id": "hipster-1bd26",
+    "storage_bucket": "hipster-1bd26.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:920338196243:android:e4add15f55185c7c599ce6",
+        "mobilesdk_app_id": "1:748660142685:android:48eab629bae701b23453b4",
         "android_client_info": {
-          "package_name": "com.android.rivchat"
+          "package_name": "com.hipster.hipsterassignment"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBhs9oEinfDIFTQznJrJtKQzARMKChkN78"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:920338196243:android:f0a8f90e25a63c9e599ce6",
-        "android_client_info": {
-          "package_name": "com.example.hipsterassignment"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBhs9oEinfDIFTQznJrJtKQzARMKChkN78"
+          "current_key": "AIzaSyD5ZL-lANjn0yOSHUAta_L6Pb6zURW_Bag"
         }
       ],
       "services": {

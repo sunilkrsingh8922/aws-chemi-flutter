@@ -58,9 +58,6 @@ class ChimeService {
       headers: {'Content-Type': 'application/json'},
       body: payload,
     );
-
-
-
     if (response.statusCode < 200 || response.statusCode >= 300) {
       throw Exception('call failed: ${response.statusCode} ${response.body}');
     }

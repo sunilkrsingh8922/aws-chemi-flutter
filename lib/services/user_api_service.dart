@@ -54,7 +54,7 @@ class UserApiService {
     return id;
   }
 
-  static Future<User> addUser(String name) async {
+  /*static Future<User> addUser(String name) async {
     final uri = Uri.parse('$_baseUrl/users/add');
     final fcmToken = await FirebaseMessaging.instance.getToken();
     final deviceId = await _getOrCreateDeviceId();
@@ -83,5 +83,5 @@ class UserApiService {
       );
     }
     throw Exception('addUser failed: ${response.statusCode} ${response.body}');
-  }
+  }*/
 }

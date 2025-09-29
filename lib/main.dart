@@ -7,17 +7,21 @@ import 'package:hipsterassignment/state/notification_controller.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'graph_ql_service.dart';
 import 'splash_screen.dart';
-import 'firebase_options.dart';
-void main() async {
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await Hive.initFlutter(); // Initialize Hive for Flutter
-  Hive.registerAdapter(UserModelAdapter()); // Register adapter
+
+  // ✅ Initialize Firebase once here
+  await Firebase.initializeApp();
+
+  // ✅ Initialize Hive
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserModelAdapter());
   await Hive.openBox<UserModel>('users');
-  // Initialize NotificationController
-  Get.put(NotificationController());
+
+  // ✅ Put NotificationController after Firebase init
+  Get.putAsync(() async => NotificationController());
+
   runApp(MyApp());
 }
 

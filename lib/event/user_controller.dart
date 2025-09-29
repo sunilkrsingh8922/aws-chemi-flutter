@@ -36,10 +36,9 @@ class UserController extends GetxController {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
       });
 
-      print("fetchedUsers == ${response.body}");
       if (response.statusCode == 200) {
         final List usersJson = json.decode(response.body)['users']; // reqres wraps users in 'data'
-        print("fetchedUsers == $usersJson");
+
         final fetchedUsers =
         usersJson.map((json) => UserModel.fromJson(json)).toList();
 

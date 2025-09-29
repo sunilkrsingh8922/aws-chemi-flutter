@@ -90,4 +90,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'angular-amp-152011.appspot.com',
     measurementId: 'G-QCDZ8HVQDQ',
   );
+
 }

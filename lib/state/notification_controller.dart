@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_core/firebase_core.dart';
 import '../services/chime_service.dart';
 import '../videocall/video_call_page.dart';
 import '../aws_list_page.dart';
@@ -12,40 +11,33 @@ class NotificationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _initFirebase();
+    _initNotifications();
   }
 
-  Future<void> _initFirebase() async {
-    await Firebase.initializeApp();
-
-    // Request permissions (iOS/macOS)
+  Future<void> _initNotifications() async {
     await _messaging.requestPermission(alert: true, badge: true, sound: true);
 
-    // Print FCM token
     try {
       final token = await _messaging.getToken();
-      debugPrint("FCM Token: $token");
+      print("✅ FCM Token: $token");
     } catch (e) {
-      debugPrint("Error getting token: $e");
+      print("❌ Error getting token: $e");
     }
 
-    // Listen for token refresh
     _messaging.onTokenRefresh.listen((newToken) {
-      debugPrint("Token refreshed: $newToken");
+      print("🔄 Token refreshed: $newToken");
     });
 
-    // Foreground notifications
     FirebaseMessaging.onMessage.listen(_handleNotificationTap);
-
-    // When app is opened from background
+    // FirebaseMessaging.onBackgroundMessage(_handleNotificationTap);
     FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationTap);
 
-    // When app is opened from terminated state
     final initialMessage = await _messaging.getInitialMessage();
     if (initialMessage != null) {
       _handleNotificationTap(initialMessage);
     }
   }
+}
 
   Future<void> _handleNotificationTap(RemoteMessage message) async {
     final data = message.data;
@@ -64,4 +56,4 @@ class NotificationController extends GetxController {
 
     Get.to(() => VideoCallPage(meeting: meeting));
   }
-}
+
