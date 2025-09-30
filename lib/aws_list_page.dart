@@ -62,12 +62,13 @@ class _AwsListScreenState extends State<AwsListScreen> {
                               tooltip: 'Start video call',
                               onPressed: () async {
                                 try {
+                                  
                                   final meeting = await ChimeService.initiateCall(
                                       callerId: user.id=="2"?"1":"2",
                                       attendeeId: user.id
                                   );
 
-                                  Get.to( () => VideoCallPage(meeting: meeting['Meeting'],atendee:meeting['Attendees']));
+                                  Get.to( () => VideoCallPage(meeting: meeting['Meeting'],attendee:meeting['Caller']));
                                 } catch (e) {
                                   Get.snackbar(
                                     'Call failed',

@@ -1,6 +1,7 @@
 
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import '../meetings/chime_manager.dart';
 import '../services/chime_service.dart';
 import '../videocall/video_call_page.dart';
 import '../aws_list_page.dart';
@@ -43,7 +44,7 @@ class NotificationController extends GetxController {
     final data = message.data;
     final name = (data['name'] ?? '').toString();
     final meetingId = data['meetingId'] ?? data['metingid'];
-
+    final reciever = data['receiver'];
     if (meetingId == null) {
       Get.offAll(() => AwsListScreen());
       return;
@@ -54,6 +55,8 @@ class NotificationController extends GetxController {
       meetingId: meetingId,
     );
 
-    Get.to(() => VideoCallPage(meeting: meeting['Meeting'],atendee:meeting['Attendees']));
+    final attendee = (meeting['Attendees'] as List<dynamic>).firstWhere((a)=>reciever==a['AttendeeId']);
+    await ChimeManager.startMeeting(meeting: meeting['Meeting'], attendee: attendee);
+    Get.to(() => VideoCallPage(meeting: meeting['Meeting'],attendee:attendee));
   }
 

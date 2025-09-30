@@ -6,8 +6,6 @@ import 'package:http/http.dart' as http;
 
 class ChimeService {
   static String get _baseUrl {
-    if (kIsWeb) return 'http://192.168.0.16:3000';
-    if (Platform.isAndroid) return 'http://192.168.0.16:3000';
     return 'http://192.168.0.16:3000';
   }
 

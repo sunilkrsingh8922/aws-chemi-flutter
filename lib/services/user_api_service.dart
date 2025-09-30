@@ -11,9 +11,6 @@ class UserApiService {
   static const String _overrideBase = String.fromEnvironment('REST_BASE_URL');
 
   static String get _baseUrl {
-    if (_overrideBase.isNotEmpty) return _overrideBase;
-    if (kIsWeb) return 'http://192.168.0.16:3000';
-    if (Platform.isAndroid) return 'http://192.168.0.16:3000';
     return 'http://192.168.0.16:3000';
   }
 
