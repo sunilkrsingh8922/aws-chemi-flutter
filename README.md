@@ -15,91 +15,102 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-[//]: # (according to mail)
-[//]: # (1 st point)
-[//]: # (login page)
-[//]: # (I have allow 2 user )
-[//]: # ("test@gmail.com": "Kgs@123",)
-[//]: # ("test1@gmail.com": "Abc@123",)
-[//]: # (through only this credential you can login)
-[//]: # (if you want some more credentials than you can add later I will manage through backend api)
+# Hipster Assignment
 
-[//]: # (2 nd point)
-[//]: # ( Agora Setup)
-[//]: # (Working this one to call 1 to 1 call api)
-[//]: # (https://console.agora.io/project-management)
-[//]: # (login with your credentials)
-[//]: # (and create agora project)
-[//]: # (where you will find AppId)
-[//]: # (Integrate that App Id to the Android Flutter Project)
-[//]: # (there have apidata where i am showing all the constraint data where you can set )
+A new Flutter project.
 
-[//]: # (3 rd point)
-[//]: # ( User List Page)
-[//]: # (// User list I am using fake api so that we can check data)
-[//]: # (// this api I am using Hive plugin through that if internet not available than your list will shown)
-[//]: # (where I am using GraphQL to get api data through api into the fake api)
+## Getting Started
 
-[//]: # (4th point)
-[//]: # (Generate keystore password to update play store for SignApk)
-[//]: #  ( keytool -genkey -v -keystore ~/my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-key-alias)
-[//]: # (~~Enter keystore password:  )
-[//]: # (Re-enter new password:)
-[//]: # (Enter the distinguished name. Provide a single dot &#40;.&#41; to leave a sub-component empty or press ENTER to use the default value in braces.)
-[//]: # (What is your first and last name?)
-[//]: # ([Unknown]:  Hipster)
-[//]: # (What is the name of your organizational unit?)
-[//]: # ([Unknown]:  Hipster)
-[//]: # (What is the name of your organization?)
-[//]: # ([Unknown]:  Hipster)
-[//]: # (What is the name of your City or Locality?)
-[//]: # ([Unknown]:  Noida)
-[//]: # (What is the name of your State or Province?)
-[//]: # ([Unknown]:  UP)
-[//]: # (What is the two-letter country code for this unit?)
-[//]: # ([Unknown]:  91)
-[//]: # (Is CN=Hipster, OU=Hipster, O=Hipster, L=Noida, ST=UP, C=91 correct?)
-[//]: # ([no]:  yes)
-[//]: # ()
-[//]: # (Generating 2,048 bit RSA key pair and self-signed certificate &#40;SHA384withRSA&#41; with a validity of 10,000 days)
-[//]: # (for: CN=Hipster, OU=Hipster, O=Hipster, L=Noida, ST=UP, C=91)
+This project is a starting point for a Flutter application.
 
-[//]: # (Notification)
-[//]: # (I am attaching backed api urlto send notification)
-[//]: # (there have notification_service page where you can register 2 token so that once 1 person call than in second devices it will send notification )
-[//]: # (where if app into the background than it will send notification through that you can join call)
+A few resources to get you started if this is your first Flutter project:
 
-[//]: # (Note)
-[//]: # (First time I was setup Aws Chime Services )
-[//]: # (Aws setup)
-[//]: # ([//]: # I have already done with Aws but aws not allow in India for video connection)
-[//]: # (Accesskey---AKIAW5V2CVNT5TCV6EAC)
-[//]: # (SecrectAccessKey---idYFI1UXwuANcu8qgkIm2YgB/n/houoBGoDGN0yq)
-[//]: # (https://476057873255.signin.aws.amazon.com/console)
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-[//]: # (backend api)
-[//]: # (For push notification I am using Nest Js Api which I will send code)
-[//]: # (I have already created AWS Chime 1 to 1 video call join meeting api where you can check)
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
 
-[//]: # (Bonus &#40;Optional, but Valuable&#41;)
-[//]: # (I have added runtime permission into the SplashScreen you can check)
-[//]: # (notification_controller I have manage push notification you can check)
-[//]: # (State management I have Used GetX, Provider you can check)
-[//]: # (CI/CD I have almost done because of the AWS Plugin issue CI/CD not passed otherwise I will remove Ags code than I will work Agora code it will work)
+---
 
-[//]: # (Deliverables)
-[//]: # (I have updated source code to the Git both front end and backend api, )
-[//]: # (I am sharing as a Public for you please you can check there )
-[//]: # (agora_rtc_engine this one is package need to install this one)
-[//]: # (need to register only AppId ehich I have already discuss above)
-[//]: # (Currently there have 2 token which I have register into the flutter code you can register your own token)
-[//]: # (which I have configure through firebase token )
-[//]: # (once you run app in log you I have printed out where you can check)
-[//]: # (// in terminal flutter build apk through this command you can run app)
-[//]: # (flutter pub add agora_rtc_engine to install agora plugin)
+## According to Mail
 
-[//]: # (Evaluation Criteria)
-[//]: # (you can check code quality )
+### 1. Login Page
+- I have allowed 2 users:
+  - **Email:** `test@gmail.com` | **Password:** `Kgs@123`
+  - **Email:** `test1@gmail.com` | **Password:** `Abc@123`
+- Only these credentials can be used to login.
+- If you want more credentials, they can be added later and I will manage through backend API.
 
-[//]: # (git@github.com:sunilkrsingh8922/aws-chemi-flutter.git)
-[//]: # (git@github.com:sunilkrsingh8922/aws-chemi-nestjs.git)
+---
+
+### 2. Agora Setup
+- Working 1-to-1 call API integration.
+- Go to [Agora Console](https://console.agora.io/project-management), login with your credentials, and create an Agora project.
+- You will get an **AppId**, which needs to be integrated into the Flutter Android project.
+- There is an `apidata` file where all the constraint data is shown and can be configured.
+
+---
+
+### 3. User List Page
+- The user list is using a **fake API** so we can test data.
+- Hive plugin is used — if internet is not available, cached list will still be shown.
+- GraphQL is used to fetch API data from the fake API.
+
+---
+
+### 4. Generate Keystore for Play Store (Sign APK)
+Use this command:
+
+```bash
+keytool -genkey -v -keystore ~/my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-key-alias
+
+Follow the prompts (example values used in this project):
+
+Name: Hipster
+Organizational Unit: Hipster
+Organization: Hipster
+City: Noida
+State: UP
+Country Code: 91
+
+5. Notification
+Backend API URL is attached to send notification.
+In notification_service, you can register 2 tokens.
+Once 1 person calls, the other device will receive a push notification.
+If the app is in background, the notification will still arrive and allow joining the call.
+
+6. Note
+Initially I set up AWS Chime Services.
+But AWS Chime video is not allowed in India.
+Access key and secret key were tested (now removed for security)
+AWS Console used earlier: https://476057873255.signin.aws.amazon.com/console
+
+7. Backend API
+Push notification handled using NestJS API.
+AWS Chime 1-to-1 join meeting API also created.
+
+8. Bonus (Optional, but Valuable)
+Runtime permissions handled in SplashScreen.
+notification_controller manages push notifications.
+State management: GetX and Provider used.
+CI/CD setup done (issue with AWS plugin caused CI/CD failure, but Agora flow will work fine if AWS code removed).
+
+9. Deliverables
+Source code updated to Git (frontend and backend).
+Agora setup: use agora_rtc_engine package.
+Register your AppId from Agora console.
+Currently 2 Firebase tokens are registered in Flutter code (you can add your own).
+
+Logs print out the tokens for verification.
+Build command:
+flutter build apk
+To add Agora plugin:
+flutter pub add agora_rtc_engine
+
+10. Evaluation Criteria
+Code quality can be checked from both frontend and backend repositories.
+Git Repositories
+Flutter Frontend: git@github.com:sunilkrsingh8922/aws-chemi-flutter.git
+NestJS Backend API: git@github.com:sunilkrsingh8922/aws-chemi-nestjs.git
