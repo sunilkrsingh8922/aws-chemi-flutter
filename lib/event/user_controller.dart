@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hipsterassignment/helper/api_data.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -30,7 +31,7 @@ class UserController extends GetxController {
   Future<void> fetchUsers() async {
     try {
       isLoading.value = true;
-      final url = Uri.parse('https://dummyjson.com/users?limit=20');
+      final url = Uri.parse(ApiData.userurl);
 
       final response = await http.get(url, headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
