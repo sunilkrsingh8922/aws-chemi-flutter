@@ -3,9 +3,11 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  agora_rtc_engine
   connectivity_plus
   firebase_core
   flutter_aws_chime
+  iris_method_channel
   permission_handler_windows
 )
 

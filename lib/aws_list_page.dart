@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hipsterassignment/graph_ql_service.dart';
 import 'package:hipsterassignment/services/chime_service.dart';
 import 'package:hipsterassignment/state/user_state.dart';
+import 'package:hipsterassignment/videocall/agora_call.dart';
 import 'package:hipsterassignment/videocall/video_call_page.dart';
 import 'event/user_bloc.dart';
 import 'event/user_event.dart';
@@ -62,13 +63,13 @@ class _AwsListScreenState extends State<AwsListScreen> {
                               tooltip: 'Start video call',
                               onPressed: () async {
                                 try {
-                                  
-                                  final meeting = await ChimeService.initiateCall(
-                                      callerId: user.id=="2"?"1":"2",
-                                      attendeeId: user.id
-                                  );
-
-                                  Get.to( () => VideoCallPage(meeting: meeting['Meeting'],attendee:meeting['Caller']));
+                                  Get.to( () => AgoraCall(appId: '', channelName: '',));
+                                  // final meeting = await ChimeService.initiateCall(
+                                  //     callerId: user.id=="2"?"1":"2",
+                                  //     attendeeId: user.id
+                                  // );
+                                  //
+                                  // Get.to( () => VideoCallPage(meeting: meeting['Meeting'],attendee:meeting['Caller']));
                                 } catch (e) {
                                   Get.snackbar(
                                     'Call failed',

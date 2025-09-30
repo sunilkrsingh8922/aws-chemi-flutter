@@ -44,15 +44,12 @@ class LoginController extends GetxController {
     final passwordRegex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{6,}$');
     if (!passwordRegex.hasMatch(password)) {
       errorMessage.value =
-          "Password must contain uppercase, lowercase, and number";
+      "Password must contain uppercase, lowercase, and number";
       return;
     }
-
     try {
       isLoading.value = true;
-
       final client = GraphQLService.initClient().value;
-
       final String query = r'''
       query GetUser($id: ID!) {
         user(id: $id) {
@@ -62,7 +59,6 @@ class LoginController extends GetxController {
         }
       }
     ''';
-
       final result = await client.query(
         QueryOptions(
           document: gql(query),
@@ -76,9 +72,16 @@ class LoginController extends GetxController {
       }
 
       final user = result.data?["user"];
+
+      // Define static allowed users
+      final allowedUsers = {
+        "test@gmail.com": "Kgs@123",
+        "test1@gmail.com": "Abc@123",
+      };
+
       if (user != null &&
-          email == "test@gmail.com" &&
-          password == "Kgs@123") {
+          allowedUsers.containsKey(email) &&
+          allowedUsers[email] == password) {
         // persist auth
         try {
           final box = await Hive.openBox('auth');
@@ -101,4 +104,5 @@ class LoginController extends GetxController {
       isLoading.value = false;
     }
   }
+
 }
